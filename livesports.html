@@ -9,18 +9,24 @@
         gtag('js', new Date());
         gtag('config', 'G-HGL07M90WG');
     </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Sports - xello</title>
-    <meta content="Nova - Live Sports" property="og:title"/>
+    <title>Xello - Live Sports</title>
+
+    <!-- Open Graph -->
+    <meta content="Xello - Live Sports" property="og:title"/>
     <meta content="Watch live sports streams for free." property="og:description"/>
     <meta content="https://novastream.top" property="og:url"/>
     <meta content="https://raw.githubusercontent.com/ambr0sial/nova/main/logo.png" property="og:image"/>
-    <meta content="#A17FC0" data-react-helmet="true" name="theme-color"/>
-    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/ambr0sial/nova/main/logo.png">
+    <meta name="theme-color" content="#A17FC0"/>
+
+    <link rel="icon" href="https://raw.githubusercontent.com/ambr0sial/nova/main/logo.png">
+
+    <!-- Fonts + Tailwind -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -32,97 +38,38 @@
             },
         }
     </script>
+
     <style>
-        .nav-link {
-            position: relative;
-            transition: all 0.3s ease;
-            padding: 0.5rem 0;
+        body {
+            margin: 0;
+            background: #0f172a;
+            overflow: hidden;
         }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 50%;
-            background: linear-gradient(to right, #a78bfa, #4c1d95);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-        .nav-link:hover {
-            color: #a78bfa;
-        }
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        .glass-effect {
+
+        .glass {
             background: rgba(17, 24, 39, 0.7);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
-        .iframe-container {
-            position: relative;
+
+        iframe {
             width: 100%;
-            padding-top: 56.25%; /* 16:9 aspect ratio */
-        }
-        .iframe-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            height: calc(100vh - 70px);
             border: none;
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen" x-data="sportsApp()">
-    <div x-show="localStorage.getItem('showParticles') !== 'false'" id="particles-js" class="fixed inset-0 pointer-events-none z-[-1]"></div>
 
-    <!-- navigation -->
-    <nav class="fixed w-full z-50 glass-effect">
-        <div class="container mx-auto px-6 py-3">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4 md:space-x-8">
-                    <div class="flex items-center space-x-3">
-                        <img src="logo.png" alt="Nova Logo" class="h-8 w-8 md:h-10 md:w-10">
-                        <span class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800">Xello</span>
-                    </div>
-                    <div class="hidden md:flex space-x-6">
-                        <a href="index.html" class="nav-link">Home</a>
-                        <a href="https://github.com/ambr0sial/nova" target="_blank" class="nav-link">GitHub</a>
-                        <a href="https://ko-fi.com/ambrosial" target="_blank" class="nav-link">Ko-Fi</a>
-                        <a href="https://discord.gg/s9kUZw7CqP" target="_blank" class="nav-link">Discord</a>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="settings.html" class="text-gray-400 hover:text-purple-400 transition-colors duration-300" title="Settings">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 settings-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </a>
-                    <button @click="mobileMenu = !mobileMenu" class="md:hidden text-gray-300 hover:text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- mobile menu -->
-            <div x-show="mobileMenu" 
-                 x-transition:enter="transition ease-out duration-200"
-                 x-transition:enter-start="opacity-0 transform -translate-y-2"
-                 x-transition:enter-end="opacity-100 transform translate-y-0"
-                 x-transition:leave="transition ease-in duration-150"
-                 x-transition:leave-start="opacity-100 transform translate-y-0"
-                 x-transition:leave-end="opacity-0 transform -translate-y-2"
-                 class="md:hidden mt-4 pb-4">
-                <div class="flex flex-col space-y-4">
-                    <a href="index.html" class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors">Movies & Shows</a>
-                    <a href="livesports.html" class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors">Live Sports</a>
-                    <a href="settings.html" class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors flex items-center space-x-2">
-                        <span>Settings</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07
+<body class="text-white font-sans">
+
+<!-- NAVBAR -->
+<header class="glass fixed w-full top-0 z-50 px-6 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-semibold text-purple-400">Xello</h1>
+</header>
+
+<!-- FULL IFRAME -->
+<div style="margin-top:70px;">
+    <iframe src="https://topstreams.pro/"></iframe>
+</div>
+
+</body>
+</html>
