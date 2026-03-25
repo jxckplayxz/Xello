@@ -1,43 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGL07M90WG"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-HGL07M90WG');
-    </script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xello - Live Sports</title>
 
-    <!-- Open Graph -->
-    <meta content="Xello - Live Sports" property="og:title"/>
-    <meta content="Watch live sports streams for free." property="og:description"/>
-    <meta content="https://novastream.top" property="og:url"/>
-    <meta content="https://raw.githubusercontent.com/ambr0sial/nova/main/logo.png" property="og:image"/>
-    <meta name="theme-color" content="#A17FC0"/>
-
-    <link rel="icon" href="https://raw.githubusercontent.com/ambr0sial/nova/main/logo.png">
-
-    <!-- Fonts + Tailwind -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
-                },
-            },
-        }
-    </script>
 
     <style>
         body {
@@ -51,9 +19,18 @@
             backdrop-filter: blur(12px);
         }
 
-        iframe {
+        /* FULLSCREEN FIX */
+        .iframe-container {
+            position: fixed;
+            top: 70px; /* navbar height */
+            left: 0;
             width: 100%;
             height: calc(100vh - 70px);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
             border: none;
         }
     </style>
@@ -66,8 +43,8 @@
     <h1 class="text-xl font-semibold text-purple-400">Xello</h1>
 </header>
 
-<!-- FULL IFRAME -->
-<div style="margin-top:70px;">
+<!-- FULLSCREEN IFRAME -->
+<div class="iframe-container">
     <iframe src="https://topstreams.pro/"></iframe>
 </div>
 
