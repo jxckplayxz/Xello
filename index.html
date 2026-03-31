@@ -49,8 +49,8 @@
     .mobile-overlay{display:none;position:fixed;inset:0;z-index:40;background:hsla(240,6%,7%,0.6);backdrop-filter:blur(4px)}
     .mobile-menu{position:fixed;top:0;right:0;bottom:0;z-index:41;width:260px;padding:80px 24px 24px;display:flex;flex-direction:column;gap:8px;transform:translateX(100%);transition:transform .3s ease;background:var(--bg)}
     .mobile-menu.open{transform:translateX(0)}
-    .mobile-menu button{display:flex;align-items:center;gap:12px;width:100%;padding:12px 16px;border-radius:12px;border:none;background:transparent;color:var(--muted-fg);font-size:.875rem;font-weight:500;cursor:pointer;transition:all .2s}
-    .mobile-menu button:hover,.mobile-menu button.active{background:hsla(270,70%,60%,0.1);color:var(--primary)}
+    .mobile-menu button,.mobile-menu a{display:flex;align-items:center;gap:12px;width:100%;padding:12px 16px;border-radius:12px;border:none;background:transparent;color:var(--muted-fg);font-size:.875rem;font-weight:500;cursor:pointer;transition:all .2s}
+    .mobile-menu button:hover,.mobile-menu button.active,.mobile-menu a:hover{background:hsla(270,70%,60%,0.1);color:var(--primary)}
     @media(max-width:768px){.nav-links{display:none}.hamburger{display:flex}}
 
     /* BANNER */
@@ -148,29 +148,17 @@
 
     /* SVG icons inline */
     .icon{display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
-    /* PAGINATION */
-    .pagination{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:32px}
-    .pagination button{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--secondary);color:var(--secondary-fg);cursor:pointer;transition:all .2s}
-    .pagination button:hover:not(:disabled){background:hsla(270,70%,60%,0.1)}
-    .pagination button:disabled{opacity:.5;cursor:not-allowed}
-    .pagination span{color:var(--muted-fg);font-size:.875rem}
-
-    /* LOADING */
-    .loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--muted-fg)}
-    .spinner{display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .6s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
   </style>
 </head>
 <body x-data="app()">
 
 <!-- NAV -->
-<nav class="glass-card">
-  <div class="nav-inner container">
-    <div class="nav-brand" @click="showPage('home')">
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
       <svg class="icon" width="28" height="28" viewBox="0 0 24 24"><path d="M12 3l1.5 3.2 3.5.5-2.5 2.4.6 3.5L12 11l-3.1 1.6.6-3.5-2.5-2.4 3.5-.5z" fill="currentColor" stroke="none" style="color:var(--primary)"/><path d="M5 17l-1 4 3-2 3 2-1-4" style="color:var(--primary)"/><path d="M14 17l-1 4 3-2 3 2-1-4" style="color:var(--primary)"/></svg>
       <span class="text-gradient">Xello</span>
-    </div>
+    </a>
     <div class="nav-links">
       <button :class="currentTab === 'movie' ? 'active' : ''" @click="switchTab('movie')">
         <svg class="icon" width="16" height="16" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M2 12h5M17 2v20M19 12h3"/></svg>
@@ -188,10 +176,6 @@
         <svg class="icon" width="16" height="16" viewBox="0 0 24 24"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
         Watch Later
       </button>
-      <button @click="showPage('settings')">
-        <svg class="icon" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/></svg>
-        Settings
-      </button>
     </div>
     <div class="nav-right">
       <div class="search-box" id="searchBox">
@@ -201,6 +185,9 @@
       <button class="icon-btn" @click="toggleSearch()" id="searchToggle">
         <svg class="icon" width="20" height="20" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       </button>
+      <a href="settings.html" class="icon-btn">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/></svg>
+      </a>
       <button class="icon-btn hamburger" @click="toggleMobile()">
         <svg class="icon" width="20" height="20" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
@@ -227,51 +214,10 @@
     <svg class="icon" width="20" height="20" viewBox="0 0 24 24"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
     Watch Later
   </button>
-  <button @click="showPage('settings');toggleMobile()">
+  <a href="settings.html" @click="toggleMobile()">
     <svg class="icon" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/></svg>
     Settings
-  </button>
-</div>
-
-<!-- VIDEO PLAYER MODAL -->
-<div id="playerModal" style="display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.95);padding:20px">
-  <button @click="closePlayer()" style="position:absolute;top:20px;right:20px;width:40px;height:40px;border:none;background:var(--secondary);color:var(--fg);border-radius:8px;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center">✕</button>
-  <div style="max-width:1200px;margin:0 auto;height:100%;display:flex;flex-direction:column">
-    <div style="flex:1;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
-      <iframe id="videoPlayer" style="width:100%;height:100%;border:none;border-radius:12px" allow="fullscreen"></iframe>
-    </div>
-    <div style="background:var(--card);padding:16px;border-radius:12px">
-      <h3 x-text="selectedContent?.title || selectedContent?.name" style="margin-bottom:12px"></h3>
-      <template x-if="currentTab === 'tv'">
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px">
-          <div>
-            <label style="display:block;font-size:0.875rem;color:var(--muted-fg);margin-bottom:4px">Season</label>
-            <select @change="updateVideoUrl()" x-model="selectedSeason" style="background:var(--secondary);color:var(--fg);border:1px solid var(--border);padding:6px 12px;border-radius:6px;cursor:pointer">
-              <template x-for="s in seasons" :key="s">
-                <option :value="s" x-text="'Season ' + s"></option>
-              </template>
-            </select>
-          </div>
-          <div>
-            <label style="display:block;font-size:0.875rem;color:var(--muted-fg);margin-bottom:4px">Episode</label>
-            <select @change="updateVideoUrl()" x-model="selectedEpisode" style="background:var(--secondary);color:var(--fg);border:1px solid var(--border);padding:6px 12px;border-radius:6px;cursor:pointer">
-              <template x-for="e in episodes" :key="e">
-                <option :value="e" x-text="'Episode ' + e"></option>
-              </template>
-            </select>
-          </div>
-        </div>
-      </template>
-      <div>
-        <label style="display:block;font-size:0.875rem;color:var(--muted-fg);margin-bottom:4px">Source</label>
-        <select @change="updateVideoUrl()" x-model="selectedSource" style="background:var(--secondary);color:var(--fg);border:1px solid var(--border);padding:6px 12px;border-radius:6px;cursor:pointer;width:100%">
-          <template x-for="source in availableSources" :key="source.id">
-            <option :value="source.id" x-text="source.name"></option>
-          </template>
-        </select>
-      </div>
-    </div>
-  </div>
+  </a>
 </div>
 
 <!-- POPUP -->
@@ -290,7 +236,7 @@
         <svg class="icon" width="16" height="16" viewBox="0 0 24 24"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/><path d="M12 7v6"/><path d="M9 10h6"/></svg>
         Got it!
       </button>
-      <p class="popup-footer">Disable this in <a href="#">Settings</a></p>
+      <p class="popup-footer">Disable this in <a href="settings.html">Settings</a></p>
     </div>
     <!-- Adblocker stage -->
     <div id="popupAdblocker" style="display:none">
@@ -352,101 +298,54 @@
         <span x-text="minRating ? minRating + '+ ⭐' : 'Rating'"></span>
       </button>
       <div class="filter-dropdown" id="ratingDropdown">
-        <button @click="minRating = ''; applyFilters(); toggleRatingDropdown()">All Ratings</button>
-        <button @click="minRating = '7'; applyFilters(); toggleRatingDropdown()">7+ ⭐</button>
-        <button @click="minRating = '8'; applyFilters(); toggleRatingDropdown()">8+ ⭐</button>
-        <button @click="minRating = '9'; applyFilters(); toggleRatingDropdown()">9+ ⭐</button>
+        <button @click="minRating = ''; applyFilters(); toggleRatingDropdown()" :class="!minRating ? 'selected' : ''">All Ratings</button>
+        <button @click="minRating = '6'; applyFilters(); toggleRatingDropdown()" :class="minRating === '6' ? 'selected' : ''">6.0+</button>
+        <button @click="minRating = '7'; applyFilters(); toggleRatingDropdown()" :class="minRating === '7' ? 'selected' : ''">7.0+</button>
+        <button @click="minRating = '8'; applyFilters(); toggleRatingDropdown()" :class="minRating === '8' ? 'selected' : ''">8.0+</button>
       </div>
     </div>
-    <button class="random-btn" @click="pickRandom()">
-      <svg class="icon" width="14" height="14" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+    <button class="random-btn" @click="getRandomMovie()">
+      <svg class="icon" width="14" height="14" viewBox="0 0 24 24"><path d="M3 16.5v2.5A2.5 2.5 0 005.5 21h13a2.5 2.5 0 002.5-2.5v-2.5M16 4l-4-4-4 4M12 4v12"/></svg>
       Random Pick
     </button>
     <template x-if="hasActiveFilters">
-      <button class="clear-btn" @click="clearAllFilters()">Clear Filters</button>
+      <button class="clear-btn" @click="clearFilters()">Clear filters</button>
     </template>
   </div>
 
-  <!-- Grid -->
-  <template x-if="loading">
-    <div class="loading">
-      <div class="spinner"></div>
-      <span style="margin-left:12px">Loading content...</span>
-    </div>
-  </template>
-  <template x-if="!loading && filteredContent.length === 0">
-    <div class="empty-state">
-      <div class="icon-box" style="width:80px;height:80px;border-radius:16px">
-        <svg class="icon" width="40" height="40" viewBox="0 0 24 24" style="color:var(--muted-fg)"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M2 12h5M17 2v20M19 12h3"/></svg>
-      </div>
-      <h3>No content found</h3>
-      <p>Try adjusting your filters or search terms</p>
-    </div>
-  </template>
-  <template x-if="!loading && filteredContent.length > 0">
-    <div class="movie-grid" id="movieGrid">
-      <template x-for="(item, index) in filteredContent" :key="item.id" style="animation-delay: calc(var(--index) * 40ms)">
-        <div class="movie-card" :style="`--index: ${index}`" @click="openContent(item)" style="cursor:pointer">
-          <div class="card-img-wrap">
-            <img :src="'https://image.tmdb.org/t/p/w500' + item.poster_path" :alt="item.title || item.name" @error="event => { event.target.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 600%22%3E%3Crect fill=%22%23333%22 width=%22400%22 height=%22600%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2224%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E'; }"/>
-            <div class="card-overlay"></div>
-            <div class="card-rating">
-              <span x-text="(item.vote_average || 0).toFixed(1)"></span>
-            </div>
-            <button class="card-bookmark" :class="isInWatchLater(item) ? 'bookmarked' : ''" @click.stop="toggleWatchLater(item)">
-              <svg class="icon" width="16" height="16" viewBox="0 0 24 24" :fill="isInWatchLater(item) ? 'currentColor' : 'none'"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
-            </button>
-            <div class="card-type">
-              <span x-text="currentTab === 'movie' ? 'Movie' : 'TV'"></span>
-            </div>
-            <div class="card-play">
-              <div class="play-circle">
-                <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-            </div>
-          </div>
-          <div class="card-info">
-            <h3 x-text="item.title || item.name"></h3>
-            <p x-text="new Date(item.release_date || item.first_air_date || '').getFullYear() || 'N/A'"></p>
-          </div>
-        </div>
+  <!-- Active filters display -->
+  <template x-if="hasActiveFilters">
+    <div class="active-filters">
+      <span>Active filters:</span>
+      <template x-if="selectedGenre">
+        <span class="active-tag">
+          <span x-text="getGenreName(selectedGenre)"></span>
+          <span class="remove" @click="selectedGenre = ''; applyFilters()">✕</span>
+        </span>
+      </template>
+      <template x-if="minRating">
+        <span class="active-tag">
+          <span x-text="minRating + '+ ⭐'"></span>
+          <span class="remove" @click="minRating = ''; applyFilters()">✕</span>
+        </span>
       </template>
     </div>
   </template>
 
-  <!-- Pagination -->
-  <template x-if="!loading && filteredContent.length > 0">
-    <div class="pagination">
-      <button @click="previousPage()" :disabled="currentPage === 1">← Previous</button>
-      <span>Page <span x-text="currentPage"></span></span>
-      <button @click="nextPage()">Next →</button>
-    </div>
-  </template>
-</main>
-
-<!-- WATCH LATER PAGE -->
-<main class="container" id="watchLaterPage" style="display:none">
-  <div class="page-header">
-    <div class="icon-box">
-      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" style="color:var(--primary)"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
-    </div>
-    <div>
-      <h1 style="font-size:1.5rem;font-weight:700">Watch <span class="text-gradient">Later</span></h1>
-      <p style="font-size:.875rem;color:var(--muted-fg)" id="wlCount" x-text="watchLaterItems.length + ' titles saved'"></p>
-    </div>
-  </div>
-  <template x-if="watchLaterItems.length > 0">
-    <div id="wlGrid" class="movie-grid">
-      <template x-for="(item, index) in watchLaterItems" :key="item.id" style="animation-delay: calc(var(--index) * 40ms)">
-        <div class="movie-card" :style="`--index: ${index}`" @click="openContent(item)" style="cursor:pointer">
+  <!-- Grid -->
+  <template x-if="filteredContent.length > 0">
+    <div class="movie-grid">
+      <template x-for="item in filteredContent" :key="item.id">
+        <div class="movie-card" @click="openContent(item)">
           <div class="card-img-wrap">
-            <img :src="'https://image.tmdb.org/t/p/w500' + item.poster_path" :alt="item.title || item.name" @error="event => { event.target.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 600%22%3E%3Crect fill=%22%23333%22 width=%22400%22 height=%22600%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2224%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E'; }"/>
+            <img :src="'https://image.tmdb.org/t/p/w500' + item.poster_path" :alt="item.title || item.name" style="width:100%;height:100%;object-fit:cover"/>
             <div class="card-overlay"></div>
-            <div class="card-rating">
-              <span x-text="(item.vote_average || 0).toFixed(1)"></span>
-            </div>
-            <button class="card-bookmark bookmarked" @click.stop="toggleWatchLater(item)">
-              <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+            <span class="card-rating">
+              <span>⭐</span>
+              <span x-text="item.vote_average?.toFixed(1)"></span>
+            </span>
+            <button class="card-bookmark" :class="isBookmarked(item.id) ? 'bookmarked' : ''" @click.stop="toggleBookmark(item)">
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" :fill="isBookmarked(item.id) ? 'currentColor' : 'none'"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
             </button>
             <div class="card-type">
               <span x-text="item.media_type === 'movie' ? 'Movie' : 'TV'"></span>
@@ -465,8 +364,70 @@
       </template>
     </div>
   </template>
+
+  <!-- Empty state -->
+  <template x-if="filteredContent.length === 0 && !loading">
+    <div class="empty-state">
+      <div class="icon-box" style="width:80px;height:80px;border-radius:16px">
+        <svg class="icon" width="40" height="40" viewBox="0 0 24 24" style="color:var(--muted-fg)"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </div>
+      <h3>No results found</h3>
+      <p>Try adjusting your filters or search query</p>
+    </div>
+  </template>
+
+  <!-- Pagination -->
+  <template x-if="filteredContent.length > 0">
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:24px">
+      <button @click="previousPage()" :disabled="currentPage === 1" style="padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--secondary);color:var(--secondary-fg);cursor:pointer;transition:all .2s;disabled:opacity:0.5;disabled:cursor:not-allowed">← Previous</button>
+      <span style="font-size:.875rem;color:var(--muted-fg)" x-text="'Page ' + currentPage"></span>
+      <button @click="nextPage()" style="padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--secondary);color:var(--secondary-fg);cursor:pointer;transition:all .2s">Next →</button>
+    </div>
+  </template>
+</main>
+
+<!-- WATCH LATER PAGE -->
+<main class="container" id="watchLaterPage" style="display:none">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="icon-box">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" style="color:var(--primary)"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+    </div>
+    <div>
+      <h1 style="font-size:1.5rem;font-weight:700"><span class="text-gradient">Watch Later</span></h1>
+      <p style="font-size:.875rem;color:var(--muted-fg)" x-text="watchLaterItems.length + ' saved items'"></p>
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <template x-if="watchLaterItems.length > 0">
+    <div class="movie-grid">
+      <template x-for="item in watchLaterItems" :key="item.id">
+        <div class="movie-card" @click="openContent(item)">
+          <div class="card-img-wrap">
+            <img :src="'https://image.tmdb.org/t/p/w500' + item.poster" :alt="item.title" style="width:100%;height:100%;object-fit:cover"/>
+            <div class="card-overlay"></div>
+            <button class="card-bookmark bookmarked" @click.stop="toggleBookmark(item)">
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+            </button>
+            <div class="card-type">
+              <span x-text="item.type === 'movie' ? 'Movie' : 'TV'"></span>
+            </div>
+            <div class="card-play">
+              <div class="play-circle">
+                <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="card-info">
+            <h3 x-text="item.title"></h3>
+          </div>
+        </div>
+      </template>
+    </div>
+  </template>
   <template x-if="watchLaterItems.length === 0">
-    <div id="wlEmpty" class="empty-state">
+    <div class="empty-state">
       <div class="icon-box" style="width:80px;height:80px;border-radius:16px">
         <svg class="icon" width="40" height="40" viewBox="0 0 24 24" style="color:var(--muted-fg)"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
       </div>
@@ -475,57 +436,6 @@
     </div>
   </template>
 </main>
-
-<!-- SETTINGS PAGE -->
-<main class="container" id="settingsPage" style="display:none">
-  <div class="page-header">
-    <div class="icon-box">
-      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" style="color:var(--primary)"><circle cx="12" cy="12" r="1"/><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/></svg>
-    </div>
-    <div>
-      <h1 style="font-size:1.5rem;font-weight:700"><span class="text-gradient">Settings</span></h1>
-      <p style="font-size:.875rem;color:var(--muted-fg)">Customize your experience</p>
-    </div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:24px">
-    <!-- Default Source Setting -->
-    <div class="glass-card" style="padding:20px;border-radius:12px">
-      <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px">Default Video Source</h3>
-      <p style="font-size:0.875rem;color:var(--muted-fg);margin-bottom:12px">Choose your preferred streaming source</p>
-      <select @change="saveDefaultSource()" x-model="selectedSource" style="background:var(--secondary);color:var(--fg);border:1px solid var(--border);padding:8px 12px;border-radius:6px;cursor:pointer;width:100%">
-        <template x-for="source in availableSources" :key="source.id">
-          <option :value="source.id" x-text="source.name + ' (' + source.category + ')'"></option>
-        </template>
-      </select>
-    </div>
-
-    <!-- Clear Watch Later -->
-    <div class="glass-card" style="padding:20px;border-radius:12px">
-      <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px">Watch Later</h3>
-      <p style="font-size:0.875rem;color:var(--muted-fg);margin-bottom:12px" x-text="'You have ' + watchLaterItems.length + ' saved items'"></p>
-      <button @click="clearWatchLater()" style="background:var(--primary);color:var(--primary-fg);border:none;padding:8px 16px;border-radius:6px;cursor:pointer;width:100%;font-weight:500">Clear All</button>
-    </div>
-
-    <!-- About -->
-    <div class="glass-card" style="padding:20px;border-radius:12px">
-      <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px">About Xello</h3>
-      <p style="font-size:0.875rem;color:var(--muted-fg);line-height:1.6">Xello is a free streaming platform powered by TMDB. Discover movies and TV shows from around the world.</p>
-    </div>
-  </div>
-</main>
-
-<!-- CLEAR CONFIRMATION MODAL -->
-<div id="clearConfirmModal" style="display:none;position:fixed;inset:0;z-index:80;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center">
-  <div class="glass-card" style="padding:24px;border-radius:12px;max-width:400px;width:90%">
-    <h2 style="font-size:1.25rem;font-weight:700;margin-bottom:12px">Clear Watch Later?</h2>
-    <p style="font-size:0.875rem;color:var(--muted-fg);margin-bottom:20px">This action cannot be undone. Are you sure?</p>
-    <div style="display:flex;gap:12px">
-      <button @click="cancelClear()" style="flex:1;background:var(--secondary);color:var(--secondary-fg);border:none;padding:10px;border-radius:6px;cursor:pointer;font-weight:500">Cancel</button>
-      <button @click="doClearWatchLater()" style="flex:1;background:var(--primary);color:var(--primary-fg);border:none;padding:10px;border-radius:6px;cursor:pointer;font-weight:500">Clear</button>
-    </div>
-  </div>
-</div>
 
 <style>@keyframes wiggle{0%{transform:rotate(0)}20%{transform:rotate(-10deg)}40%{transform:rotate(10deg)}60%{transform:rotate(-5deg)}80%{transform:rotate(5deg)}100%{transform:rotate(0)}}</style>
 
@@ -551,9 +461,9 @@ function app() {
     episodes: [],
     showClearConfirm: false,
     availableSources: typeof availableSources !== 'undefined' ? availableSources : [],
+    selectedSource: localStorage.getItem('defaultSource') || 'embedsu',
 
     async init() {
-      // Initialize sources from global variable
       if (typeof availableSources !== 'undefined') {
         this.availableSources = availableSources;
       }
@@ -648,43 +558,46 @@ function app() {
       return this.selectedGenre || this.minRating;
     },
 
-    clearAllFilters() {
+    clearFilters() {
       this.selectedGenre = '';
       this.minRating = '';
       this.applyFilters();
     },
 
-    toggleWatchLater(item) {
+    switchTab(tab) {
+      this.currentTab = tab;
+      this.currentPage = 1;
+      this.selectedGenre = '';
+      this.minRating = '';
+      this.searchQuery = '';
+      this.fetchGenres();
+      this.fetchContent();
+    },
+
+    getRandomMovie() {
+      if (this.filteredContent.length > 0) {
+        const random = this.filteredContent[Math.floor(Math.random() * this.filteredContent.length)];
+        this.openContent(random);
+      }
+    },
+
+    toggleBookmark(item) {
       const index = this.watchLaterItems.findIndex(i => i.id === item.id);
       if (index > -1) {
         this.watchLaterItems.splice(index, 1);
       } else {
         this.watchLaterItems.push({
-          ...item,
-          media_type: this.currentTab
+          id: item.id,
+          title: item.title || item.name,
+          type: this.currentTab,
+          poster: item.poster_path
         });
       }
       localStorage.setItem('watchLater', JSON.stringify(this.watchLaterItems));
     },
 
-    isInWatchLater(item) {
-      return this.watchLaterItems.some(i => i.id === item.id);
-    },
-
-    pickRandom() {
-      if (this.filteredContent.length === 0) return;
-      const randomItem = this.filteredContent[Math.floor(Math.random() * this.filteredContent.length)];
-      alert(`Random pick: ${randomItem.title || randomItem.name}`);
-    },
-
-    async switchTab(tab) {
-      this.currentTab = tab;
-      this.currentPage = 1;
-      this.searchQuery = '';
-      this.selectedGenre = '';
-      this.minRating = '';
-      await this.fetchGenres();
-      await this.fetchContent();
+    isBookmarked(id) {
+      return this.watchLaterItems.some(item => item.id === id);
     },
 
     nextPage() {
@@ -711,7 +624,6 @@ function app() {
       this.currentPageView = page;
       document.getElementById('homePage').style.display = page === 'home' ? 'flex' : 'none';
       document.getElementById('watchLaterPage').style.display = page === 'watchlater' ? 'flex' : 'none';
-      document.getElementById('settingsPage').style.display = page === 'settings' ? 'flex' : 'none';
     },
 
     toggleSearch() {
@@ -740,15 +652,33 @@ function app() {
     },
 
     showPopup() {
+      const showWelcome = localStorage.getItem('showWelcomePopup') !== 'false';
+      const showAdblocker = localStorage.getItem('showAdBlockerPopup') !== 'false';
+      
+      if (!showWelcome && !showAdblocker) {
+        return;
+      }
+      
       const popupOverlay = document.getElementById('popupOverlay');
       const popupCenter = document.getElementById('popupCenter');
       popupOverlay.classList.add('show');
       popupCenter.classList.add('show');
+      
+      if (!showWelcome) {
+        document.getElementById('popupWelcome').style.display = 'none';
+        document.getElementById('popupAdblocker').style.display = 'block';
+      }
     },
 
     showAdblockerPopup() {
+      const showAdblocker = localStorage.getItem('showAdBlockerPopup') !== 'false';
+      if (!showAdblocker) {
+        this.closePopup();
+        return;
+      }
       document.getElementById('popupWelcome').style.display = 'none';
       document.getElementById('popupAdblocker').style.display = 'block';
+      localStorage.setItem('showWelcomePopup', 'false');
     },
 
     closePopup() {
@@ -756,6 +686,10 @@ function app() {
       const popupCenter = document.getElementById('popupCenter');
       popupOverlay.classList.remove('show');
       popupCenter.classList.remove('show');
+      document.getElementById('popupWelcome').style.display = 'block';
+      document.getElementById('popupAdblocker').style.display = 'none';
+      localStorage.setItem('showWelcomePopup', 'false');
+      localStorage.setItem('showAdBlockerPopup', 'false');
     },
 
     async openContent(item) {
@@ -763,24 +697,8 @@ function app() {
       window.location.href = `watch.html?id=${item.id}&type=${type}`;
     },
 
-
-
     saveDefaultSource() {
       localStorage.setItem('defaultSource', this.selectedSource);
-    },
-
-    clearWatchLater() {
-      document.getElementById('clearConfirmModal').style.display = 'flex';
-    },
-
-    cancelClear() {
-      document.getElementById('clearConfirmModal').style.display = 'none';
-    },
-
-    doClearWatchLater() {
-      this.watchLaterItems = [];
-      localStorage.setItem('watchLater', JSON.stringify([]));
-      document.getElementById('clearConfirmModal').style.display = 'none';
     }
   }
 }
