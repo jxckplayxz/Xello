@@ -1,376 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGL07M90WG"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-HGL07M90WG');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings - Xello</title>
-    <meta content="Nova" property="og:title"/>
-    <meta content="Click, watch, enjoy. Nova breaks down the paywall, ensuring that quality content is accessible to everyone." property="og:description"/>
-    <meta content="https://novastream.top" property="og:url"/>
-    <meta content="https://raw.githubusercontent.com/ambr0sial/nova/main/logo.png" property="og:image"/>
-    <meta content="#A17FC0" data-react-helmet="true" name="theme-color"/>
-    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/ambr0sial/nova/main/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="sources.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
-                },
-            },
-        }
-    </script>
-    <style>
-        .settings-sidebar {
-            background: rgba(30, 41, 59, 0.5);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(148, 163, 184, 0.1);
-        }
-        
-        .settings-content {
-            background: rgba(15, 23, 42, 0.3);
-        }
-
-        .source-option {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .source-option:hover {
-            background: rgba(148, 163, 184, 0.1);
-        }
-
-        .source-option.selected {
-            border-color: #A855F7;
-            background: rgba(168, 85, 247, 0.1);
-        }
-
-        .source-option.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .glass-effect {
-            background: rgba(17, 24, 39, 0.7);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-link {
-            position: relative;
-            transition: all 0.3s ease;
-            padding: 0.5rem 0;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 50%;
-            background: linear-gradient(to right, #a78bfa, #4c1d95);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-
-        .nav-link:hover {
-            color: #a78bfa;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-    </style>
-</head>
-<body class="bg-gray-900 text-white min-h-screen font-sans" x-data="{ 
-    activeSection: 'default-source', 
-    mobileMenu: false,
-    showMobileWarning: window.innerWidth < 768,
-    isMobileWarningDismissed: false,
-    showParticles: localStorage.getItem('showParticles') === null ? true : localStorage.getItem('showParticles') !== 'false',
-    showUpdateNotice: localStorage.getItem('showUpdateNotice') === null ? true : localStorage.getItem('showUpdateNotice') !== 'false',
-    toggleParticles() {
-        this.showParticles = !this.showParticles;
-        localStorage.setItem('showParticles', this.showParticles);
-        window.dispatchEvent(new Event('appearance-changed'));
-    },
-    toggleUpdateNotice() {
-        this.showUpdateNotice = !this.showUpdateNotice;
-        localStorage.setItem('showUpdateNotice', this.showUpdateNotice);
-        window.dispatchEvent(new Event('appearance-changed'));
-    },
-    selectedLanguage: localStorage.getItem('selectedLanguage') || 'en',
-    changeLanguage(newLanguage) {
-        this.selectedLanguage = newLanguage;
-        localStorage.setItem('selectedLanguage', newLanguage);
-        window.dispatchEvent(new Event('language-changed'));
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Settings - Xello</title>
+  <meta name="description" content="Xello Settings"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  <script src="sources.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" defer></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:hsl(240,6%,7%);--fg:hsl(0,0%,95%);
+      --card:hsl(240,5%,10%);--card-fg:hsl(0,0%,95%);
+      --primary:hsl(270,70%,60%);--primary-fg:hsl(0,0%,100%);
+      --secondary:hsl(240,4%,16%);--secondary-fg:hsl(0,0%,85%);
+      --muted:hsl(240,4%,14%);--muted-fg:hsl(240,5%,55%);
+      --border:hsl(240,4%,18%);--radius:0.75rem;
     }
-}">
-    <!-- mobile warning -->
-    <div x-show="showMobileWarning && !isMobileWarningDismissed" 
-         class="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 px-4"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 transform scale-95"
-         x-transition:enter-end="opacity-100 transform scale-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 transform scale-100"
-         x-transition:leave-end="opacity-0 transform scale-95">
-        <div class="bg-gray-800 rounded-lg p-6 w-full max-w-sm text-center space-y-4">
-            <div class="w-16 h-16 mx-auto bg-purple-500/10 rounded-full flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-            </div>
-            <h3 class="text-xl font-semibold text-purple-400">Mobile Experience Limited</h3>
-            <p class="text-gray-300">The settings page isn't fully optimized for mobile devices yet. For the best experience, please use a desktop browser.</p>
-            <button @click="isMobileWarningDismissed = true" 
-                    class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition-colors duration-300">
-                I understand
-            </button>
-        </div>
+    body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    h1,h2,h3,h4,h5,h6{font-family:'Space Grotesk',sans-serif}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1280px;margin:0 auto}
+    .text-gradient{background:linear-gradient(to right,var(--primary),hsl(270,80%,70%));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .glass-card{background:hsla(240,5%,10%,0.6);backdrop-filter:blur(24px);border:1px solid hsla(240,4%,18%,0.5)}
+    .glow-border{box-shadow:0 0 20px -5px hsla(270,70%,60%,0.15)}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:50;border-bottom:1px solid hsla(240,4%,18%,0.3);animation:slideDown .4s ease;background:var(--bg)}
+    @keyframes slideDown{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 1.5rem}
+    .nav-brand{display:flex;align-items:center;gap:8px;cursor:pointer}
+    .nav-brand span{font-size:1.25rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
+    .nav-links{display:flex;gap:4px}
+    .nav-links button{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;border:none;background:transparent;color:var(--muted-fg);font-size:.875rem;font-weight:500;cursor:pointer;transition:all .2s}
+    .nav-links button:hover,.nav-links button.active{background:hsla(270,70%,60%,0.1);color:var(--primary)}
+    .nav-right{display:flex;align-items:center;gap:8px}
+    .icon-btn{width:40px;height:40px;border-radius:8px;border:none;background:transparent;color:var(--muted-fg);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+    .icon-btn:hover{color:var(--fg);background:var(--secondary)}
+    .hamburger{display:none}
+    @media(max-width:768px){.nav-links{display:none}.hamburger{display:flex}}
+
+    /* MAIN */
+    main{padding:96px 1.5rem 64px;display:flex;flex-direction:column;gap:24px}
+
+    /* HEADER */
+    .page-header{display:flex;align-items:center;gap:12px;animation:fadeUp .4s ease;margin-bottom:24px}
+    .page-header h1{font-size:2rem;font-weight:700}
+    .page-header .icon-box{width:40px;height:40px;border-radius:12px;background:hsla(270,70%,60%,0.1);display:flex;align-items:center;justify-content:center}
+
+    /* SETTINGS GRID */
+    .settings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+
+    /* SETTINGS CARD */
+    .settings-card{background:var(--card);border-radius:16px;padding:24px;animation:fadeUp .4s ease;border:1px solid hsla(240,4%,18%,0.5)}
+    .settings-card h2{font-size:1.25rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+    .settings-card .icon-box{width:32px;height:32px;border-radius:8px;background:hsla(270,70%,60%,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+    /* TOGGLE SWITCH */
+    .toggle-group{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid hsla(240,4%,18%,0.3)}
+    .toggle-group:last-child{border-bottom:none}
+    .toggle-label{display:flex;flex-direction:column;gap:4px}
+    .toggle-label .title{font-size:.875rem;font-weight:600;color:var(--fg)}
+    .toggle-label .desc{font-size:.75rem;color:var(--muted-fg)}
+    .toggle-switch{position:relative;width:48px;height:28px;background:var(--secondary);border-radius:9999px;cursor:pointer;transition:all .3s;border:1px solid hsla(240,4%,18%,0.5)}
+    .toggle-switch.active{background:var(--primary);border-color:var(--primary)}
+    .toggle-switch::after{content:'';position:absolute;top:2px;left:2px;width:24px;height:24px;background:var(--fg);border-radius:50%;transition:all .3s}
+    .toggle-switch.active::after{left:22px}
+
+    /* SELECT */
+    .select-group{display:flex;flex-direction:column;gap:8px;padding:12px 0}
+    .select-group label{font-size:.875rem;font-weight:600;color:var(--fg)}
+    .select-group select{background:var(--secondary);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--fg);font-size:.875rem;cursor:pointer;transition:all .2s}
+    .select-group select:hover{border-color:var(--primary)}
+    .select-group select:focus{outline:none;border-color:var(--primary)}
+
+    /* BUTTON */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;border-radius:8px;border:none;font-size:.875rem;font-weight:500;cursor:pointer;transition:all .2s}
+    .btn.primary{background:var(--primary);color:var(--primary-fg)}
+    .btn.primary:hover{opacity:.9}
+    .btn.secondary{background:var(--secondary);color:var(--secondary-fg);border:1px solid var(--border)}
+    .btn.secondary:hover{background:hsla(240,4%,16%,0.8)}
+    .btn.danger{background:hsl(0,70%,60%);color:var(--primary-fg)}
+    .btn.danger:hover{opacity:.9}
+
+    /* BUTTON GROUP */
+    .button-group{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+
+    /* INFO BOX */
+    .info-box{background:hsla(270,70%,60%,0.1);border:1px solid hsla(270,70%,60%,0.2);border-radius:8px;padding:12px;font-size:.875rem;color:var(--secondary-fg);margin-top:12px}
+
+    /* ANIMATIONS */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+    .icon{display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+</head>
+<body x-data="settingsApp()">
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <span class="text-gradient">Xello</span>
+      </a>
+      <div class="nav-links">
+        <button @click="window.location.href='/'">Browse</button>
+        <button @click="window.location.href='/'">Watch Later</button>
+      </div>
+      <div class="nav-right">
+        <a href="/" class="icon-btn">
+          <svg class="icon" viewBox="0 0 24 24" width="20" height="20">
+            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    <!-- HEADER -->
+    <div class="page-header">
+      <div class="icon-box">
+        <svg class="icon" viewBox="0 0 24 24" width="24" height="24">
+          <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+          <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+      </div>
+      <h1>Settings</h1>
     </div>
 
-    <!-- navigation -->
-    <nav class="fixed w-full z-50 glass-effect">
-        <div class="container mx-auto px-6 py-3">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4 md:space-x-8">
-                    <div class="flex items-center space-x-3">
-                        <img src="logo.png" alt="Nova Logo" class="h-8 w-8 md:h-10 md:w-10">
-                        <span class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800">Xello</span>
-                    </div>
-                    <div class="hidden md:flex space-x-6">
-                </div>
-                <!-- mobile menu button -->
-                <button @click="mobileMenu = !mobileMenu" class="md:hidden text-gray-300 hover:text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- mobile menu -->
-            <div x-show="mobileMenu" 
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 transform -translate-y-2"
-                x-transition:enter-end="opacity-100 transform translate-y-0"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 transform translate-y-0"
-                x-transition:leave-end="opacity-0 transform -translate-y-2"
-                class="md:hidden mt-4 pb-4">
-                <div class="flex flex-col space-y-4">
-                    <a href="index.html" class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors">Home</a>
-                    <a href="livesports.html" class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors">Live Sports</a>
-            </div>
-        </div>
-    </nav>
+    <!-- SETTINGS GRID -->
+    <div class="settings-grid">
+      <!-- APPEARANCE SETTINGS -->
+      <div class="settings-card">
+        <h2>
+          <div class="icon-box">
+            <svg class="icon" viewBox="0 0 24 24" width="20" height="20">
+              <circle cx="12" cy="12" r="1"/>
+              <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/>
+            </svg>
+          </div>
+          Appearance
+        </h2>
 
-    <div class="flex min-h-screen pt-16">
-        <!-- sidebar -->
-        <div class="settings-sidebar w-64 p-6 flex flex-col">
-            <button @click="window.history.back()" class="text-left px-4 py-2 rounded-lg hover:bg-purple-600/50 transition-colors mb-2">Back</button>
-            <hr class="border-gray-600 mb-2">
-            <div class="flex flex-col space-y-2">
-                <button 
-                    @click="activeSection = 'default-source'"
-                    :class="{'bg-purple-600': activeSection === 'default-source'}"
-                    class="text-left px-4 py-2 rounded-lg hover:bg-purple-600/50 transition-colors">
-                    Default Source
-                </button>
-                <button 
-                    @click="activeSection = 'appearance'"
-                    :class="{'bg-purple-600': activeSection === 'appearance'}"
-                    class="text-left px-4 py-2 rounded-lg hover:bg-purple-600/50 transition-colors">
-                    Appearance
-                </button>
-            </div>
+        <div class="toggle-group">
+          <div class="toggle-label">
+            <span class="title">Welcome Popup</span>
+            <span class="desc">Show welcome message on first visit</span>
+          </div>
+          <div class="toggle-switch" :class="showWelcomePopup && 'active'" @click="toggleWelcomePopup()"></div>
         </div>
 
-        <!-- main content -->
-        <div class="flex-1 p-8 settings-content">
-            <div class="max-w-4xl mx-auto">
-                <div class="mb-8">
-                    <h1 class="text-4xl font-bold mb-2">Settings</h1>
-                    <p class="text-slate-400 text-lg">Customize your xello experience</p>
-                </div>
-
-                <div class="bg-gradient-to-r from-purple-500/10 via-purple-500/20 to-purple-500/10 border border-purple-500/20 p-6 rounded-xl mb-8 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-purple-500/10 px-4 py-1 rounded-bl-lg text-purple-400 text-xs font-medium">
-                        WIP
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold text-purple-400 mb-2">Work in Progress</h3>
-                            <p class="text-slate-300">Xello's settings page is currently under active development. More customization options will be added soon.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- default source section -->
-                <div x-show="activeSection === 'default-source'" class="animate-fade-in">
-                    <div class="mb-6">
-                        <h2 class="text-2xl font-semibold mb-2">Default Source</h2>
-                        <p class="text-slate-400">Choose your preferred default source for streaming content. This setting will be remembered across sessions.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" x-data="{ 
-                        selectedSource: localStorage.getItem('defaultSource') || 'multiembed',
-                        setSource(sourceId) {
-                            this.selectedSource = sourceId;
-                            localStorage.setItem('defaultSource', sourceId);
-                        }
-                    }">
-                        <template x-for="source in availableSources" :key="source.id">
-                            <div 
-                                @click="setSource(source.id)"
-                                :class="{'selected': selectedSource === source.id}"
-                                class="source-option bg-slate-800/50 rounded-lg p-4 cursor-pointer">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <div class="font-medium" x-text="source.name"></div>
-                                        <div class="text-sm text-slate-400" x-text="source.isFrench ? 'French Content' : 'English Content'"></div>
-                                    </div>
-                                    <div class="w-5 h-5 rounded-full border-2" 
-                                        :class="selectedSource === source.id ? 'border-purple-500 bg-purple-500' : 'border-slate-600'">
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-
-                <!-- appearance section -->
-                <div x-show="activeSection === 'appearance'" class="animate-fade-in space-y-8">
-                    <div class="mb-6">
-                        <h2 class="text-2xl font-semibold mb-2">Appearance</h2>
-                        <p class="text-slate-400">Customize how xello looks and feels</p>
-                    </div>
-
-                    <div class="space-y-6">
-                        <!-- Background Particles Toggle -->
-                        <div class="flex items-center justify-between p-4 bg-slate-800/50 rounded-lg">
-                            <div class="space-y-1">
-                                <h3 class="font-medium">Background Particles</h3>
-                                <p class="text-sm text-slate-400">Toggle the animated particle effect in the background of xello</p>
-                            </div>
-                            <button 
-                                @click="toggleParticles"
-                                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300"
-                                :class="showParticles ? 'bg-purple-600' : 'bg-gray-600'">
-                                <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300"
-                                      :class="showParticles ? 'translate-x-6' : 'translate-x-1'"></span>
-                            </button>
-                        </div>
-
-                        <!-- update notice toggle -->
-                        <div class="flex items-center justify-between p-4 bg-slate-800/50 rounded-lg">
-                            <div class="space-y-1">
-                                <h3 class="font-medium">Update Notice</h3>
-                                <p class="text-sm text-slate-400">Toggle the update notice on the homepage that informs you about the latest updates</p>
-                            </div>
-                            <button 
-                                @click="toggleUpdateNotice"
-                                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300"
-                                :class="showUpdateNotice ? 'bg-purple-600' : 'bg-gray-600'">
-                                <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300"
-                                      :class="showUpdateNotice ? 'translate-x-6' : 'translate-x-1'"></span>
-                            </button>
-                        </div>
-
-                        <!-- popup reminder toggle -->
-                        <div class="flex items-center justify-between p-4 bg-slate-800/50 rounded-lg">
-                            <div class="space-y-1">
-                                <h3 class="font-medium">Popup Reminder</h3>
-                                <p class="text-sm text-slate-400">Toggle the popup reminder to bookmark the site</p>
-                            </div>
-                            <button 
-                                @click="showPopupReminder = !showPopupReminder; localStorage.setItem('showPopupReminder', showPopupReminder)"
-                                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300"
-                                :class="showPopupReminder ? 'bg-purple-600' : 'bg-gray-600'"
-                                x-data="{ showPopupReminder: localStorage.getItem('showPopupReminder') !== 'false' }">
-                                <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300"
-                                      :class="showPopupReminder ? 'translate-x-6' : 'translate-x-1'"></span>
-                            </button>
-                        </div>
-
-                        <!-- donation banner toggle -->
-                        <div class="flex items-center justify-between p-4 bg-slate-800/50 rounded-lg">
-                            <div class="space-y-1">
-                                <h3 class="font-medium">hidden Banner</h3>
-                                <p class="text-sm text-slate-400">Toggle the hidden banner at the bottom of the homepage</p>
-                            </div>
-                            <button 
-                                @click="showDonationBanner = !showDonationBanner; localStorage.setItem('showDonationBanner', showDonationBanner)"
-                                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300"
-                                :class="showDonationBanner ? 'bg-purple-600' : 'bg-gray-600'"
-                                x-data="{ showDonationBanner: localStorage.getItem('showDonationBanner') !== 'false' }">
-                                <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300"
-                                      :class="showDonationBanner ? 'translate-x-6' : 'translate-x-1'"></span>
-                            </button>
-                        </div>
-
-                        <!-- content language dropdown -->
-                        <div class="flex items-center justify-between p-4 bg-slate-800/50 rounded-lg">
-                            <div class="space-y-1">
-                                <h3 class="font-medium">Content Language</h3>
-                                <p class="text-sm text-slate-400">Select the language for content information</p>
-                            </div>
-                            <select x-model="selectedLanguage" @change="changeLanguage(selectedLanguage)" class="bg-gray-800 text-white rounded-lg px-4 py-2 pr-8 appearance-none hover:bg-gray-700 transition-colors duration-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-                                <option value="en">English</option>
-                                <option value="fr">French</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="toggle-group">
+          <div class="toggle-label">
+            <span class="title">Ad Blocker Popup</span>
+            <span class="desc">Show ad blocker notification</span>
+          </div>
+          <div class="toggle-switch" :class="showAdBlockerPopup && 'active'" @click="toggleAdBlockerPopup()"></div>
         </div>
+
+        <div class="toggle-group">
+          <div class="toggle-label">
+            <span class="title">Particle Effects</span>
+            <span class="desc">Show animated background particles</span>
+          </div>
+          <div class="toggle-switch" :class="showParticles && 'active'" @click="toggleParticles()"></div>
+        </div>
+      </div>
+
+      <!-- PLAYBACK SETTINGS -->
+      <div class="settings-card">
+        <h2>
+          <div class="icon-box">
+            <svg class="icon" viewBox="0 0 24 24" width="20" height="20">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          Playback
+        </h2>
+
+        <div class="select-group">
+          <label>Default Video Source</label>
+          <select x-model="defaultSource" @change="saveDefaultSource()">
+            <template x-for="source in availableSources" :key="source.id">
+              <option :value="source.id" x-text="source.name + ' (' + source.category + ')'"></option>
+            </template>
+          </select>
+          <div class="info-box">Your preferred source will be used when watching content</div>
+        </div>
+      </div>
+
+      <!-- DATA & PRIVACY -->
+      <div class="settings-card">
+        <h2>
+          <div class="icon-box">
+            <svg class="icon" viewBox="0 0 24 24" width="20" height="20">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+            </svg>
+          </div>
+          Data & Privacy
+        </h2>
+
+        <div class="button-group">
+          <button class="btn secondary" @click="clearWatchLater()">Clear Watch Later</button>
+          <button class="btn secondary" @click="clearAllData()">Clear All Data</button>
+        </div>
+        <div class="info-box">This will remove all your saved preferences and watch later items</div>
+      </div>
+
+      <!-- ABOUT -->
+      <div class="settings-card">
+        <h2>
+          <div class="icon-box">
+            <svg class="icon" viewBox="0 0 24 24" width="20" height="20">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 16v-4M12 8h.01"/>
+            </svg>
+          </div>
+          About
+        </h2>
+
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:.875rem">
+          <div>
+            <p style="color:var(--muted-fg);margin-bottom:4px">Version</p>
+            <p style="font-weight:600">1.0.0</p>
+          </div>
+          <div>
+            <p style="color:var(--muted-fg);margin-bottom:4px">Streaming Sources</p>
+            <p style="font-weight:600" x-text="availableSources.length + ' sources available'"></p>
+          </div>
+          <div>
+            <p style="color:var(--muted-fg);margin-bottom:4px">Last Updated</p>
+            <p style="font-weight:600" x-text="new Date().toLocaleDateString()"></p>
+          </div>
+        </div>
+      </div>
     </div>
+  </main>
 
-    <script>
-        if (!localStorage.getItem('defaultSource')) {
-            localStorage.setItem('defaultSource', 'embedsu');
+  <script>
+    function settingsApp() {
+      return {
+        showWelcomePopup: localStorage.getItem('showWelcomePopup') !== 'false',
+        showAdBlockerPopup: localStorage.getItem('showAdBlockerPopup') !== 'false',
+        showParticles: localStorage.getItem('showParticles') !== 'false',
+        defaultSource: localStorage.getItem('defaultSource') || 'embedsu',
+        availableSources: typeof availableSources !== 'undefined' ? availableSources : [],
+
+        init() {
+          if (typeof availableSources !== 'undefined') {
+            this.availableSources = availableSources;
+          }
+        },
+
+        toggleWelcomePopup() {
+          this.showWelcomePopup = !this.showWelcomePopup;
+          localStorage.setItem('showWelcomePopup', this.showWelcomePopup);
+        },
+
+        toggleAdBlockerPopup() {
+          this.showAdBlockerPopup = !this.showAdBlockerPopup;
+          localStorage.setItem('showAdBlockerPopup', this.showAdBlockerPopup);
+        },
+
+        toggleParticles() {
+          this.showParticles = !this.showParticles;
+          localStorage.setItem('showParticles', this.showParticles);
+        },
+
+        saveDefaultSource() {
+          localStorage.setItem('defaultSource', this.defaultSource);
+        },
+
+        clearWatchLater() {
+          if (confirm('Are you sure you want to clear your Watch Later list?')) {
+            localStorage.removeItem('watchLater');
+            alert('Watch Later list cleared!');
+          }
+        },
+
+        clearAllData() {
+          if (confirm('This will clear all your settings and data. Are you sure?')) {
+            localStorage.clear();
+            alert('All data cleared! Refreshing page...');
+            window.location.reload();
+          }
         }
-        if (localStorage.getItem('showParticles') === null) {
-            localStorage.setItem('showParticles', 'true');
-        }
-        if (localStorage.getItem('showUpdateNotice') === null) {
-            localStorage.setItem('showUpdateNotice', 'true');
-        }
-        if (localStorage.getItem('showPopupReminder') === null) {
-            localStorage.setItem('showPopupReminder', 'true');
-        }
-        if (localStorage.getItem('showDonationBanner') === null) {
-            localStorage.setItem('showDonationBanner', 'true');
-        }
-    </script>
+      }
+    }
+  </script>
 </body>
 </html>
-
-<!--
- _   _                 
-| \ | | _____   ____ _ 
-|  \| |/ _ \ \ / / _` |
-| |\  | (_) \ V / (_| |
-|_| \_|\___/ \_/ \__,_|
--->
