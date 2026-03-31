@@ -185,9 +185,9 @@
       <button class="icon-btn" @click="toggleSearch()" id="searchToggle">
         <svg class="icon" width="20" height="20" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       </button>
-      <a href="settings.html" class="icon-btn">
+      <button class="icon-btn" onclick="window.location.href='settings.html'">
         <svg class="icon" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/></svg>
-      </a>
+      </button>
       <button class="icon-btn hamburger" @click="toggleMobile()">
         <svg class="icon" width="20" height="20" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
@@ -214,10 +214,10 @@
     <svg class="icon" width="20" height="20" viewBox="0 0 24 24"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
     Watch Later
   </button>
-  <a href="settings.html" @click="toggleMobile()">
+  <button onclick="window.location.href='settings.html'" style="display:flex;align-items:center;gap:12px;width:100%;padding:12px 16px;border-radius:12px;border:none;background:transparent;color:var(--muted-fg);font-size:.875rem;font-weight:500;cursor:pointer;transition:all .2s">
     <svg class="icon" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/></svg>
     Settings
-  </a>
+  </button>
 </div>
 
 <!-- POPUP -->
@@ -256,7 +256,7 @@
 </div>
 
 <!-- HOME PAGE -->
-<main class="container" id="homePage">
+<main class="container" id="homePage" style="display:flex;flex-direction:column;gap:24px;padding:96px 1.5rem 64px;animation:fadeIn .4s ease">
   <!-- Banner -->
   <div class="banner" id="banner" style="display:none">
     <div class="banner-text">
@@ -387,7 +387,7 @@
 </main>
 
 <!-- WATCH LATER PAGE -->
-<main class="container" id="watchLaterPage" style="display:none">
+<main class="container" id="watchLaterPage" style="display:none;flex-direction:column;gap:24px;padding:96px 1.5rem 64px;animation:fadeIn .4s ease">
   <!-- Header -->
   <div class="page-header">
     <div class="icon-box">
@@ -564,14 +564,15 @@ function app() {
       this.applyFilters();
     },
 
-    switchTab(tab) {
+    async switchTab(tab) {
       this.currentTab = tab;
       this.currentPage = 1;
       this.selectedGenre = '';
       this.minRating = '';
       this.searchQuery = '';
-      this.fetchGenres();
-      this.fetchContent();
+      this.showPage('home');
+      await this.fetchGenres();
+      await this.fetchContent();
     },
 
     getRandomMovie() {
@@ -655,19 +656,21 @@ function app() {
       const showWelcome = localStorage.getItem('showWelcomePopup') !== 'false';
       const showAdblocker = localStorage.getItem('showAdBlockerPopup') !== 'false';
       
+      // Don't show any popups if both are disabled
       if (!showWelcome && !showAdblocker) {
         return;
+      }
+      
+      // If only welcome is disabled, skip to adblocker
+      if (!showWelcome && showAdblocker) {
+        document.getElementById('popupWelcome').style.display = 'none';
+        document.getElementById('popupAdblocker').style.display = 'block';
       }
       
       const popupOverlay = document.getElementById('popupOverlay');
       const popupCenter = document.getElementById('popupCenter');
       popupOverlay.classList.add('show');
       popupCenter.classList.add('show');
-      
-      if (!showWelcome) {
-        document.getElementById('popupWelcome').style.display = 'none';
-        document.getElementById('popupAdblocker').style.display = 'block';
-      }
     },
 
     showAdblockerPopup() {
@@ -688,8 +691,6 @@ function app() {
       popupCenter.classList.remove('show');
       document.getElementById('popupWelcome').style.display = 'block';
       document.getElementById('popupAdblocker').style.display = 'none';
-      localStorage.setItem('showWelcomePopup', 'false');
-      localStorage.setItem('showAdBlockerPopup', 'false');
     },
 
     async openContent(item) {
