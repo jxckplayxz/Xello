@@ -46,10 +46,11 @@
     main{padding:96px 0 64px;animation:fadeIn .4s ease}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes glow{0%{box-shadow:0 0 20px hsla(270,70%,60%,0.2)}50%{box-shadow:0 0 40px hsla(270,70%,60%,0.4)}100%{box-shadow:0 0 20px hsla(270,70%,60%,0.2)}}
 
     /* PLAYER SECTION */
     .player-section{margin-bottom:48px}
-    .player-container{position:relative;width:100%;padding-bottom:56.25%;background:var(--secondary);border-radius:12px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.3);animation:fadeUp .5s ease}
+    .player-container{position:relative;width:100%;padding-bottom:56.25%;background:linear-gradient(135deg,var(--secondary),hsla(270,70%,60%,0.1));border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 40px hsla(270,70%,60%,0.2);animation:fadeUp .5s ease;border:1px solid hsla(270,70%,60%,0.2)}
     .player-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
     .player-controls{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;animation:fadeUp .6s ease;padding:0 1.5rem}
     
@@ -57,35 +58,35 @@
     .source-selector{display:flex;flex-direction:column;gap:8px}
     .source-label{font-size:.875rem;font-weight:600;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.5px}
     .source-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
-    .source-btn{padding:12px;border-radius:8px;border:1px solid hsla(240,4%,18%,0.5);background:var(--secondary);color:var(--secondary-fg);font-size:.875rem;font-weight:500;cursor:pointer;transition:all .2s;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .source-btn:hover{background:hsla(240,4%,16%,0.8);border-color:var(--primary)}
-    .source-btn.active{background:var(--primary);color:var(--primary-fg);border-color:var(--primary)}
+    .source-btn{padding:12px;border-radius:10px;border:1px solid hsla(240,4%,18%,0.5);background:var(--secondary);color:var(--secondary-fg);font-size:.875rem;font-weight:600;cursor:pointer;transition:all .3s;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+    .source-btn:hover{background:hsla(240,4%,16%,0.8);border-color:var(--primary);transform:translateY(-2px);box-shadow:0 6px 20px hsla(270,70%,60%,0.3)}
+    .source-btn.active{background:linear-gradient(135deg,var(--primary),hsl(270,80%,70%));color:var(--primary-fg);border-color:transparent;box-shadow:0 8px 24px hsla(270,70%,60%,0.4)}
 
     /* EPISODE SELECTOR */
     .episode-selector{display:flex;flex-direction:column;gap:8px}
     .selector-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
     .select-control{display:flex;flex-direction:column;gap:4px}
     .select-control label{font-size:.75rem;font-weight:600;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.5px}
-    .select-control select{padding:10px 12px;border-radius:8px;border:1px solid hsla(240,4%,18%,0.5);background:var(--secondary);color:var(--fg);font-size:.875rem;cursor:pointer;transition:all .2s}
-    .select-control select:hover{border-color:var(--primary)}
-    .select-control select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px hsla(270,70%,60%,0.1)}
+    .select-control select{padding:10px 12px;border-radius:10px;border:1px solid hsla(240,4%,18%,0.5);background:linear-gradient(135deg,var(--secondary),hsla(270,70%,60%,0.05));color:var(--fg);font-size:.875rem;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+    .select-control select:hover{border-color:var(--primary);box-shadow:0 6px 16px hsla(270,70%,60%,0.2)}
+    .select-control select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px hsla(270,70%,60%,0.2)}
 
     /* CONTENT DETAILS */
     .content-details{display:grid;grid-template-columns:300px 1fr;gap:32px;animation:fadeUp .7s ease;margin-bottom:48px;padding:0 1.5rem}
     .poster-section{display:flex;flex-direction:column;gap:16px}
-    .poster{width:100%;aspect-ratio:2/3;border-radius:12px;background:var(--secondary);overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+    .poster{width:100%;aspect-ratio:2/3;border-radius:14px;background:linear-gradient(135deg,var(--secondary),hsla(270,70%,60%,0.1));overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.4),0 0 30px hsla(270,70%,60%,0.2);border:1px solid hsla(270,70%,60%,0.1)}
     .poster img{width:100%;height:100%;object-fit:cover}
     .action-buttons{display:flex;flex-direction:column;gap:8px}
     .action-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:8px;border:none;font-weight:600;cursor:pointer;transition:all .2s;font-size:.875rem}
-    .action-btn.primary{background:var(--primary);color:var(--primary-fg)}
-    .action-btn.primary:hover{opacity:.9}
-    .action-btn.secondary{background:var(--secondary);color:var(--secondary-fg);border:1px solid hsla(240,4%,18%,0.5)}
-    .action-btn.secondary:hover{background:hsla(240,4%,16%,0.8)}
+    .action-btn.primary{background:linear-gradient(135deg,var(--primary),hsl(270,80%,70%));color:var(--primary-fg);box-shadow:0 4px 12px hsla(270,70%,60%,0.3)}
+    .action-btn.primary:hover{opacity:.95;transform:translateY(-2px);box-shadow:0 6px 20px hsla(270,70%,60%,0.4)}
+    .action-btn.secondary{background:var(--secondary);color:var(--secondary-fg);border:1px solid hsla(240,4%,18%,0.5);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+    .action-btn.secondary:hover{background:hsla(240,4%,16%,0.8);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
 
     /* INFO SECTION */
     .info-section{display:flex;flex-direction:column;gap:24px}
     .info-header{display:flex;flex-direction:column;gap:8px}
-    .info-header h1{font-size:2rem;font-weight:700;line-height:1.2}
+    .info-header h1{font-size:2rem;font-weight:700;line-height:1.2;background:linear-gradient(135deg,var(--fg),hsl(270,70%,70%));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .info-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:.875rem;color:var(--muted-fg)}
     .meta-item{display:flex;align-items:center;gap:6px}
     .rating{display:flex;align-items:center;gap:4px;color:var(--primary);font-weight:600}
@@ -99,8 +100,8 @@
     .cast-section{margin-top:48px;animation:fadeUp .8s ease;padding:0 1.5rem}
     .section-title{font-size:1.5rem;font-weight:700;margin-bottom:16px}
     .cast-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
-    .cast-card{display:flex;flex-direction:column;gap:12px;border-radius:12px;overflow:hidden;background:var(--card);transition:all .2s}
-    .cast-card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+    .cast-card{display:flex;flex-direction:column;gap:12px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,var(--card),hsla(270,70%,60%,0.05));transition:all .3s;border:1px solid hsla(270,70%,60%,0.1);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+    .cast-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,.4),0 0 30px hsla(270,70%,60%,0.2)}
     .cast-image{width:100%;aspect-ratio:2/3;background:var(--secondary);overflow:hidden}
     .cast-image img{width:100%;height:100%;object-fit:cover}
     .cast-info{padding:12px}
@@ -110,8 +111,8 @@
     /* RECOMMENDATIONS */
     .recommendations{margin-top:48px;animation:fadeUp .9s ease;padding:0 1.5rem}
     .recommendations-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
-    .rec-card{position:relative;border-radius:12px;overflow:hidden;background:var(--secondary);cursor:pointer;transition:all .2s;aspect-ratio:2/3}
-    .rec-card:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+    .rec-card{position:relative;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,var(--secondary),hsla(270,70%,60%,0.1));cursor:pointer;transition:all .3s;aspect-ratio:2/3;border:1px solid hsla(270,70%,60%,0.1);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+    .rec-card:hover{transform:scale(1.08);box-shadow:0 12px 40px rgba(0,0,0,.4),0 0 30px hsla(270,70%,60%,0.2)}
     .rec-card img{width:100%;height:100%;object-fit:cover}
     .rec-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.8));display:flex;align-items:flex-end;padding:12px;opacity:0;transition:opacity .2s}
     .rec-card:hover .rec-overlay{opacity:1}
@@ -140,13 +141,10 @@
     <!-- NAV -->
     <nav>
       <div class="nav-inner">
-        <div class="nav-brand" onclick="window.location.href='index.html'">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="23 7 16 12 23 17 23 7"></polygon>
-            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-          </svg>
-          <span>Xello</span>
-        </div>
+        <a href="index.html" class="nav-brand">
+          <svg class="icon" width="28" height="28" viewBox="0 0 24 24"><path d="M12 3l1.5 3.2 3.5.5-2.5 2.4.6 3.5L12 11l-3.1 1.6.6-3.5-2.5-2.4 3.5-.5z" fill="currentColor" stroke="none" style="color:var(--primary)"/><path d="M5 17l-1 4 3-2 3 2-1-4" style="color:var(--primary)"/><path d="M14 17l-1 4 3-2 3 2-1-4" style="color:var(--primary)"/></svg>
+          <span class="text-gradient">Xello</span>
+        </a>
         <div class="nav-links">
           <button onclick="window.location.href='index.html'">
             <svg class="icon" width="16" height="16" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M2 12h5M17 2v20M19 12h3"/></svg>
@@ -159,6 +157,10 @@
           <button onclick="window.location.href='https://xello-streams.vercel.app/livesports.html'">
             <svg class="icon" width="16" height="16" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 010-5C7 4 7 9 7 9M18 9h1.5a2.5 2.5 0 000-5C17 4 17 9 17 9"/><path d="M4 22h16"/><path d="M10 22V2h4v20"/></svg>
             Live Sports
+          </button>
+          <button onclick="window.location.href='index.html'">
+            <svg class="icon" width="16" height="16" viewBox="0 0 24 24"><path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+            Watch Later
           </button>
         </div>
         <div class="nav-right">
