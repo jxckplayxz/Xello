@@ -144,10 +144,10 @@
     .popup-footer a:hover{text-decoration:underline}
 
     /* DISCORD POPUP */
-    #discordPopupOverlay{display:none;position:fixed;inset:0;z-index:60;background:hsla(240,6%,7%,0.7);backdrop-filter:blur(4px);opacity:0;transition:opacity .3s}
-    #discordPopupCenter{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:70;opacity:0;transform:translate(-50%,-50%) scale(0.9);transition:all .3s;pointer-events:none;padding:16px}
-    #discordPopupOverlay.show{display:block;opacity:1}
-    #discordPopupCenter.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}
+    #discordPopupOverlay{position:fixed;inset:0;z-index:60;background:hsla(240,6%,7%,0.7);backdrop-filter:blur(4px);display:none;animation:fadeIn .3s ease}
+    #discordPopupOverlay.show{display:block}
+    #discordPopupCenter{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;padding:16px;animation:fadeIn .3s ease}
+    #discordPopupCenter.show{display:flex}
 
     /* PAGES */
     main{padding:96px 1.5rem 64px;display:flex;flex-direction:column;gap:24px}
@@ -258,6 +258,25 @@
       </a>
       <button class="popup-btn secondary" @click="closePopup()">I already have one — let's go!</button>
     </div>
+  </div>
+</div>
+
+<!-- DISCORD POPUP (SEPARATE) -->
+<div id="discordPopupOverlay" class="popup-overlay"></div>
+<div id="discordPopupCenter" class="popup-center">
+  <div class="popup-card glass-card glow-border">
+    <button class="close" @click="closeDiscordPopup()">✕</button>
+    <div class="popup-icon" style="animation:bounce 1s ease .3s">
+      <svg class="icon" width="28" height="28" viewBox="0 0 24 24" style="color:#5865F2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.211.375-.445.865-.608 1.25a18.27 18.27 0 00-5.487 0c-.163-.39-.398-.875-.609-1.25a.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.873-1.295 1.226-1.994a.076.076 0 00-.042-.106 13.107 13.107 0 01-1.872-.892.077.077 0 00-.009-.128c.126-.094.252-.192.372-.291a.074.074 0 00.03-.066c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 00.033.066c.12.099.246.197.372.291a.077.077 0 00-.009.128c-.598.349-1.222.646-1.872.892a.077.077 0 00-.041.107c.359.698.77 1.364 1.225 1.994a.076.076 0 00.084.028 19.963 19.963 0 006.002-3.03.077.077 0 00.032-.057c.5-4.565-.838-8.526-3.554-12.066a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-.965-2.157-2.156 0-1.193.964-2.157 2.157-2.157 1.193 0 2.156.964 2.156 2.157 0 1.19-.963 2.156-2.156 2.156zm7.975 0c-1.183 0-2.157-.965-2.157-2.156 0-1.193.964-2.157 2.157-2.157 1.193 0 2.157.964 2.157 2.157 0 1.19-.964 2.156-2.157 2.156z" fill="currentColor"/></svg>
+    </div>
+    <h2>Join Our <span class="text-gradient">Discord</span>! 💬</h2>
+    <p class="desc">Connect with the Xello community and chat with other users!</p>
+    <a href="https://discord.gg/d78rWRe6an" target="_blank" rel="noopener noreferrer" class="popup-btn primary">
+      <svg class="icon" width="16" height="16" viewBox="0 0 24 24" style="color:#5865F2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.211.375-.445.865-.608 1.25a18.27 18.27 0 00-5.487 0c-.163-.39-.398-.875-.609-1.25a.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.873-1.295 1.226-1.994a.076.076 0 00-.042-.106 13.107 13.107 0 01-1.872-.892.077.077 0 00-.009-.128c.126-.094.252-.192.372-.291a.074.074 0 00.03-.066c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 00.033.066c.12.099.246.197.372.291a.077.077 0 00-.009.128c-.598.349-1.222.646-1.872.892a.077.077 0 00-.041.107c.359.698.77 1.364 1.225 1.994a.076.076 0 00.084.028 19.963 19.963 0 006.002-3.03.077.077 0 00.032-.057c.5-4.565-.838-8.526-3.554-12.066a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-.965-2.157-2.156 0-1.193.964-2.157 2.157-2.157 1.193 0 2.156.964 2.156 2.157 0 1.19-.963 2.156-2.156 2.156zm7.975 0c-1.183 0-2.157-.965-2.157-2.156 0-1.193.964-2.157 2.157-2.157 1.193 0 2.157.964 2.157 2.157 0 1.19-.964 2.156-2.157 2.156z" fill="currentColor"/></svg>
+      Join Discord Server
+      <svg class="icon" width="14" height="14" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
+    </a>
+    <button class="popup-btn secondary" @click="closeDiscordPopup()">Maybe later</button>
   </div>
 </div>
 
