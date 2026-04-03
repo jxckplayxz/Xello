@@ -416,7 +416,6 @@ var FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vie
 var allMatches = [];
 var currentFilter = 'all';
 
-// Convert kick-off time to local time (Central Time)
 function convertToLocalTime(timeStr) {
   if (!timeStr || timeStr === '') return '—';
   try {
@@ -440,7 +439,6 @@ function pad(n){ return String(n).padStart(2,'0'); }
 function today(){ return new Date().toISOString().split('T')[0]; }
 function ts(){ var d=new Date(); return ''+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+pad(d.getHours())+pad(d.getMinutes()); }
 
-// Date label
 (function(){
   var d=new Date();
   var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
