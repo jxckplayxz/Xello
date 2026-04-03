@@ -94,6 +94,7 @@
     /* ANIMATIONS */
     @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
     .icon{display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
   </style>
@@ -169,6 +170,14 @@
             <span class="desc">Show animated background particles</span>
           </div>
           <div class="toggle-switch" :class="showParticles && 'active'" @click="toggleParticles()"></div>
+        </div>
+
+        <div class="toggle-group">
+          <div class="toggle-label">
+            <span class="title">Discord Popup</span>
+            <span class="desc">Show Discord community invitation</span>
+          </div>
+          <div class="toggle-switch" :class="showDiscordPopup && 'active'" @click="toggleDiscordPopup()"></div>
         </div>
       </div>
 
@@ -247,6 +256,7 @@
       return {
         showWelcomePopup: localStorage.getItem('showWelcomePopup') !== 'false',
         showAdBlockerPopup: localStorage.getItem('showAdBlockerPopup') !== 'false',
+        showDiscordPopup: localStorage.getItem('showDiscordPopup') !== 'false',
         showParticles: localStorage.getItem('showParticles') !== 'false',
         defaultSource: localStorage.getItem('defaultSource') || 'embedsu',
         availableSources: typeof availableSources !== 'undefined' ? availableSources : [],
@@ -270,6 +280,11 @@
         toggleParticles() {
           this.showParticles = !this.showParticles;
           localStorage.setItem('showParticles', this.showParticles);
+        },
+
+        toggleDiscordPopup() {
+          this.showDiscordPopup = !this.showDiscordPopup;
+          localStorage.setItem('showDiscordPopup', this.showDiscordPopup);
         },
 
         saveDefaultSource() {
